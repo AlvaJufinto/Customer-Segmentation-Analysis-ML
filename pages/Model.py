@@ -50,11 +50,7 @@ st.subheader("Model Parameters")
 col1, col2 = st.columns(2)
 
 with col1:
-		k = st.selectbox(
-				"Number of Clusters (K)",
-				options=[2, 3,4, 5, 6, 7],
-				index=1
-		)
+		k = st.slider("K Range", 2, 7, 3)
 
 with col2:
 		max_iter = st.slider("Max Iterations", 100, 500, 300)
@@ -132,10 +128,10 @@ if find_k:
 		- Silhouette: higher is better (closer to 1)
 		""")
 
-		if best_k in [3, 5, 7]:
-				if st.button("Use Recommended K"):
-						k = best_k
-						st.success(f"K updated to {k}")
+		#if best_k in [3, 5, 7]:
+		#		if st.button("Use Recommended K"):
+		#				k = best_k
+		#				st.success(f"K updated to {k}")
 
 if st.button("Train Model"):
 
@@ -200,26 +196,6 @@ if st.button("Train Model"):
 
 		st.dataframe(cluster_summary, use_container_width=True)
 
-		st.subheader("Segment Insights")
-
-		for i in range(k):
-				cluster_data = df_clustered[df_clustered['cluster'] == i]
-
-				st.markdown(f"### Cluster {i}")
-
-				avg_spend = cluster_data['total_spend'].mean()
-				avg_tx = cluster_data['transaction_count'].mean()
-
-				if avg_spend > df['total_spend'].mean():
-						segment = "High Value"
-				elif avg_spend > df['total_spend'].median():
-						segment = "Mid Value"
-				else:
-						segment = "Low Value"
-
-				st.write(f"- Avg Spend: {avg_spend:,.2f}")
-				st.write(f"- Avg Transactions: {avg_tx:,.0f}")
-				st.write(f"- Segment Type: **{segment}**")
 
 		st.subheader("Download Results")
 

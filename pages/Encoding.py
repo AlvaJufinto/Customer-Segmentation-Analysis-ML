@@ -4,48 +4,54 @@ import pandas as pd
 st.title("Data Encoding")
 
 st.info("ℹ️ This section explains how each feature is encoded before modeling.")
+#
+#st.subheader("Customer Segmentation (Output)")
 
-st.subheader("Customer Segmentation (Output)")
-
-k = st.selectbox("Select Number of Segments (K)", [3, 5, 7])
+#k = st.slider("Select Number of Segments (K)", 2, 10, 3)
 
 def generate_segments(k):
-    if k == 3:
-        return [
-            ("High Value", "High spending, frequent transactions"),
-            ("Mid Value", "Moderate behavior"),
-            ("Low Value", "Low activity / low spending"),
-        ]
-    
-    elif k == 5:
-        return [
-            ("Champion", "High spend, very frequent"),
-            ("Loyal", "Consistent spending behavior"),
-            ("Potential", "Growing activity"),
-            ("At Risk", "Declining engagement"),
-            ("Low Value", "Low activity"),
-        ]
-    
-    elif k == 7:
-        return [
-            ("Champion", "Top customers"),
-            ("Loyal", "Frequent and stable"),
-            ("Big Spenders", "High spend but less frequent"),
-            ("Potential", "Growing segment"),
-            ("At Risk", "Declining activity"),
-            ("Hibernating", "Inactive customers"),
-            ("Low Value", "Very low engagement"),
-        ]
-    
-    else:
-        return [(f"Segment {i}", "Customer group") for i in range(k)]
+    base_labels = [
+        "Top Customer",
+        "Loyal",
+        "Potential",
+        "At Risk",
+        "Hibernating",
+        "Low Value",
+        "New",
+        "Big Spenders",
+        "Frequent Buyers",
+        "Occasional"
+    ]
 
-segments = generate_segments(k)
+    descriptions = [
+        "Nasabah Prioritas",
+        "Consistent and loyal behavior",
+        "Showing growth potential",
+        "Declining engagement",
+        "Inactive or sleeping customers",
+        "Very low activity",
+        "Recently acquired customers",
+        "High spending behavior",
+        "Frequent transaction behavior",
+        "Irregular purchase pattern"
+    ]
 
-target_df = pd.DataFrame(segments, columns=["Label", "Description"])
+    result = []
+    for i in range(k):
+        label = base_labels[i] if i < len(base_labels) else f"Segment {i+1}"
+        desc = descriptions[i] if i < len(descriptions) else "Customer group"
+        result.append((label, desc))
 
-st.subheader("Customer Segmentation")
-st.dataframe(target_df, use_container_width=True)
+    return result
+  
+#segments = generate_segments(k)
+
+#target_df = pd.DataFrame(segments, columns=["Label", "Description"])
+
+#st.subheader("Customer Segmentation (Output)")
+#st.dataframe(target_df, use_container_width=True)
+
+st.subheader("Numerical Features")
 
 num_df = pd.DataFrame({
     "Feature": [
