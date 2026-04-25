@@ -1,3 +1,5 @@
+<!-- @format -->
+
 # Customer Behavior Analysis Streamlit App
 
 A Streamlit-based customer analysis project that explores credit-card transaction data, performs feature engineering, and segments customers using K-Means clustering.
@@ -7,6 +9,7 @@ A Streamlit-based customer analysis project that explores credit-card transactio
 This project analyzes customer behavior using a financial transaction dataset. It combines transaction history, customer demographics, and merchant category information to build a clean dataset for exploration and clustering.
 
 The app includes:
+
 - Exploratory Data Analysis (EDA)
 - Data pipeline and feature explanation
 - Interactive K-Means clustering model training
@@ -27,6 +30,7 @@ The app includes:
 ## Data Sources
 
 The app is built around a financial transactions dataset and uses:
+
 - Transaction records
 - Customer demographic / financial profile data
 - Merchant Category Code (MCC) mappings
@@ -70,6 +74,7 @@ streamlit run Home.py
 ## Dependencies
 
 Based on the project files, the primary dependencies include:
+
 - `streamlit`
 - `pandas`
 - `numpy`
