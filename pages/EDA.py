@@ -1,20 +1,13 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from utils import read_customer_data
 
 st.set_page_config(layout="wide")
 
 st.title("Exploratory Data Analysis")
 
-@st.cache_data
-def load_data():
-    try:
-        df = pd.read_parquet('data/customer_data.parquet')
-    except:
-        df = pd.read_csv('data/customer_data.csv')
-    return df
-
-df = load_data()
+df = read_customer_data()
 
 df.columns = df.columns.str.strip()
 numeric_cols = df.select_dtypes(include='number').columns.tolist()

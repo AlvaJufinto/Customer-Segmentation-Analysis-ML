@@ -1,12 +1,10 @@
 import pandas as pd
 import streamlit as st
 
-
 @st.cache_data
 def read_customer_data():
     return pd.read_parquet('data/customer_data.parquet')
   
-def generate_segments(df_clustered, k):
     """
     Generate segment labels based on cluster ranking.
 

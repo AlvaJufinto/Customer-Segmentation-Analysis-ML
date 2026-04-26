@@ -7,6 +7,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import os
+from utils import read_customer_data
 
 st.title("Train Your Model")
 
@@ -15,11 +16,7 @@ Train a KMeans clustering model for customer segmentation.
 Adjust parameters and explore how segmentation changes.
 """)
 
-@st.cache_data
-def load_data():
-		return pd.read_parquet("data/customer_data.parquet")
-
-df = load_data()
+df = read_customer_data()
 
 st.subheader("Feature Configuration")
 
