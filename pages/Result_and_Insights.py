@@ -79,9 +79,25 @@ st.subheader("Cluster Profile (Business Metrics)")
 cluster_profile = df.groupby('cluster')[business_features].mean().round(2)
 
 st.dataframe(cluster_profile, use_container_width=True)
-st.subheader("Cluster Comparison")
 
+# start
+st.write("### Daftar Pelanggan Berdasarkan Persona")
+
+df_display = df.copy()
+df_display['persona'] = df_display['cluster'].map(cluster_persona)
+
+unique_personas = list(set(cluster_persona.values()))
+tabs = st.tabs(unique_personas)
+
+for tab, persona_name in zip(tabs, unique_personas):
+    with tab:
+        st.write(f"Menampilkan pelanggan dengan persona: **{persona_name}**")
+        filtered_data = df_display[df_display['persona'] == persona_name]
+        st.dataframe(filtered_data, use_container_width=True)
+
+st.subheader("Cluster Comparison")
 metric = st.selectbox("Choose metric", business_features)
+# end
 
 st.bar_chart(df.groupby('cluster')[metric].mean())
 
