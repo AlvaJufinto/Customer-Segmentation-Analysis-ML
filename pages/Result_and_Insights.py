@@ -62,6 +62,10 @@ cluster_counts = df['cluster'].value_counts().sort_index()
 
 col1, col2 = st.columns(2)
 
+df_display = df.copy()
+
+df_display['persona'] = df_display['cluster'].map(cluster_persona)
+
 with col1:
     st.write("Cluster Distribution")
     st.bar_chart(cluster_counts)
@@ -74,30 +78,46 @@ with col2:
         **Cluster {c} - {cluster_persona[c]}**
         - Users: {val}
         """)
-st.subheader("Cluster Profile (Business Metrics)")
+        
+st.subheader("Cluster Profile (Detailed Statistics)")
 
-cluster_profile = df.groupby('cluster')[business_features].mean().round(2)
+cluster_profile = df_display.groupby('cluster')[business_features].agg([
+    'count',
+    'mean',
+    'std',
+    'min',
+    'median',
+    'max'
+]).round(2)
 
 st.dataframe(cluster_profile, use_container_width=True)
-
 # start
-st.write("### Daftar Pelanggan Berdasarkan Persona")
-
-df_display = df.copy()
-df_display['persona'] = df_display['cluster'].map(cluster_persona)
+st.write("### Customer List by Persona")
 
 unique_personas = list(set(cluster_persona.values()))
 tabs = st.tabs(unique_personas)
 
 for tab, persona_name in zip(tabs, unique_personas):
     with tab:
-        st.write(f"Menampilkan pelanggan dengan persona: **{persona_name}**")
+        st.write(f"Showing customers with persona: **{persona_name}**")
         filtered_data = df_display[df_display['persona'] == persona_name]
+        st.dataframe(filtered_data, use_container_width=True)
+
+st.write("### Customer List by Cluster")
+
+unique_clusters = sorted(df_display['cluster'].unique())
+tabs = st.tabs([f"Cluster {c}" for c in unique_clusters])
+
+for tab, c in zip(tabs, unique_clusters):
+    with tab:
+        st.write(f"Showing customers in **Cluster {c}**")
+
+        filtered_data = df_display[df_display['cluster'] == c]
+
         st.dataframe(filtered_data, use_container_width=True)
 
 st.subheader("Cluster Comparison")
 metric = st.selectbox("Choose metric", business_features)
-# end
 
 st.bar_chart(df.groupby('cluster')[metric].mean())
 

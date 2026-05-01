@@ -61,14 +61,14 @@ find_k = st.checkbox("Analyze K (Elbow + Silhouette)")
 best_k = None
 
 def preprocess_features(df, features):
-		df_model = df[features].copy()
+    df_model = df[features].copy()
 
-		for col in df_model.columns:
-				if df_model[col].dtype == 'object':
-						# OPTION: use grouping OR one-hot
-						df_model = pd.get_dummies(df_model, columns=[col])
+    categorical_cols = df_model.select_dtypes(include=['object']).columns
 
-		return df_model
+    if len(categorical_cols) > 0:
+        df_model = pd.get_dummies(df_model, columns=categorical_cols)
+
+    return df_model
 
 if find_k:
 		X = preprocess_features(df, features).dropna()
@@ -136,8 +136,8 @@ if st.button("Train Model"):
 				st.error("Select at least 2 features.")
 				st.stop()
 
-		X = df[features].dropna()
-
+		X = preprocess_features(df, features).dropna()
+  
 		scaler = StandardScaler()
 		X_scaled = scaler.fit_transform(X)
 
