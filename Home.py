@@ -5,6 +5,13 @@ st.set_page_config(page_title="Customer Behavior Analysis", layout="wide")
 st.title("Customer Behavior Analysis based on Credit Card Transaction History")
 
 st.markdown("""
+## Group 8
+1. Abraham Gregorius Anderson Thio - 2802473504
+2. Alwan Athallah Mumtaz - 2802473896
+3. Axel Sanjiro Yang - 2802472400
+4. Sean Spencer - 2802466953
+5. Stanislaus Alva Jufinto - 2802473214     
+            
 ## Overview
 
 This project analyzes customer behavior based on transaction data and segments customers using RFM and K-Means Clustering.
